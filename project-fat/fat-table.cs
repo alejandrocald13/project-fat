@@ -7,14 +7,24 @@ class FatTable{
     public string ModificatedDate {get; set;}
     public string EliminatedDate {get; set;}
 
-    public FatTable(string file, string directory, int total){
-        FileName = file;
+    public FatTable(string filename, string directory, int chartotal){
+        FileName = filename;
         Directory = directory;
         ReciclynBin = false;
-        Chartotal = total;
+        Chartotal = chartotal;
         CreatedDate = DateTime.Now.ToString();
         ModificatedDate = "";
         EliminatedDate = "";
+    }
+
+    public string Info(){
+        string temp = ModificatedDate;
+
+        if (ModificatedDate == ""){
+            temp = "N/A";
+        }
+
+        return $"Nombre del Archivo: {FileName} - No. Caracteres: {Chartotal} - Fecha Creación: {CreatedDate} - Fecha Modificación: {temp}";
     }
 
 }

@@ -12,3 +12,4 @@ C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\obj\Debug\net8.0\refi
 C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\obj\Debug\net8.0\project-fat.pdb
 C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\obj\Debug\net8.0\project-fat.genruntimeconfig.cache
 C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\obj\Debug\net8.0\ref\project-fat.dll
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\obj\Debug\net8.0\project-fat.sourcelink.json
