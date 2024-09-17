@@ -1,0 +1,14 @@
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\bin\Debug\net8.0\project-fat.exe
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\bin\Debug\net8.0\project-fat.deps.json
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\bin\Debug\net8.0\project-fat.runtimeconfig.json
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\bin\Debug\net8.0\project-fat.dll
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\bin\Debug\net8.0\project-fat.pdb
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\obj\Debug\net8.0\project-fat.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\obj\Debug\net8.0\project-fat.AssemblyInfoInputs.cache
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\obj\Debug\net8.0\project-fat.AssemblyInfo.cs
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\obj\Debug\net8.0\project-fat.csproj.CoreCompileInputs.cache
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\obj\Debug\net8.0\project-fat.dll
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\obj\Debug\net8.0\refint\project-fat.dll
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\obj\Debug\net8.0\project-fat.pdb
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\obj\Debug\net8.0\project-fat.genruntimeconfig.cache
+C:\Users\USUARIO\Documents\mid_url\project-fat\project-fat\obj\Debug\net8.0\ref\project-fat.dll
