@@ -165,56 +165,104 @@ static void modificate_file(int fileNumber, string data){
     string actual_directory = Directory.GetCurrentDirectory();
     string filePath = $"{actual_directory}/Tables.json";
 
-    try{    
-        string jsonFromFile = File.ReadAllText(filePath);
-        List<FatTable> deserializedTables = JsonSerializer.Deserialize<List<FatTable>>(jsonFromFile)!;
+    string jsonFromFile = File.ReadAllText(filePath);
+    List<FatTable> deserializedTables = JsonSerializer.Deserialize<List<FatTable>>(jsonFromFile)!;
 
-        foreach(FatTable table in deserializedTables){
-            if (!table.ReciclynBin){
-                i ++;
-                if (i == fileNumber){
-                    Console.WriteLine(table.Info());
-                    Console.WriteLine(transversal(table.Directory, ""));
-                    string? currentDirectory = table.Directory;
-                    while (true){
-                        
-                        if (currentDirectory == null){
-                            break;
-                        }
-
-                        jsonFromFile = File.ReadAllText(currentDirectory);
-                        Cluster current = JsonSerializer.Deserialize<Cluster>(jsonFromFile)!;
-                        File.Delete(table.Directory);
-
-                        if (current.Eof == true){
-                            break;
-                        }
-                        else
-                        {
-                            currentDirectory = current.NextFile;
-                        }
+    foreach(FatTable table in deserializedTables){
+        if (!table.ReciclynBin){
+            i ++;
+            if (i == fileNumber){
+                Console.WriteLine(table.Info());
+                Console.WriteLine(transversal(table.Directory, ""));
+                string? currentDirectory = table.Directory;
+                while (true){
+                    
+                    if (currentDirectory == null){
+                        break;
                     }
 
-                    create_file(table.FileName, data);
+                    jsonFromFile = File.ReadAllText(currentDirectory);
+                    Cluster current = JsonSerializer.Deserialize<Cluster>(jsonFromFile)!;
+                    File.Delete(currentDirectory);
+
+                    if (current.Eof == true){
+                        break;
+                    }
+                    else
+                    {
+                        currentDirectory = current.NextFile;
+                    }
                 }
+
+                create_file(table.FileName, data);
+                table.ModificatedDate = DateTime.Now.ToString();
+                table.Chartotal = data.Length;
+
+                string jsonString = JsonSerializer.Serialize(deserializedTables);
+
+                File.WriteAllText(filePath, jsonString);
+
             }
         }
     }
-        
-    catch (Exception ex)
-    {   
-        Console.WriteLine(ex.Message);
-        Console.WriteLine("Vaya, parece que ese archivo no lo encuentro.");
-    }
-
 }
+
+static void delete_(int fileNumber){
+    int i = 0;
+
+    string actual_directory = Directory.GetCurrentDirectory();
+    string filePath = $"{actual_directory}/Tables.json";
+
+    string jsonFromFile = File.ReadAllText(filePath);
+    List<FatTable> deserializedTables = JsonSerializer.Deserialize<List<FatTable>>(jsonFromFile)!;
+
+    foreach(FatTable table in deserializedTables){
+            if (!table.ReciclynBin){
+                i ++;
+                if (i == fileNumber){
+                    table.ReciclynBin = true;
+                    table.EliminatedDate = DateTime.Now.ToString();
+
+                    string jsonString = JsonSerializer.Serialize(deserializedTables);
+                    File.WriteAllText(filePath, jsonString);
+
+                }
+            }
+        }
+}
+
+
+static void backup_(int fileNumber){
+    int i = 0;
+
+    string actual_directory = Directory.GetCurrentDirectory();
+    string filePath = $"{actual_directory}/Tables.json";
+
+    string jsonFromFile = File.ReadAllText(filePath);
+    List<FatTable> deserializedTables = JsonSerializer.Deserialize<List<FatTable>>(jsonFromFile)!;
+
+    foreach(FatTable table in deserializedTables){
+            if (table.ReciclynBin){
+                i ++;
+                if (i == fileNumber){
+                    table.ReciclynBin = false;
+                    table.EliminatedDate = DateTime.Now.ToString();
+
+                    string jsonString = JsonSerializer.Serialize(deserializedTables);
+                    File.WriteAllText(filePath, jsonString);
+
+                }
+            }
+        }
+} 
 
 static void main(){
     while (true){
         Console.WriteLine("Bienvenido a mi Sistema de Simulación de FAT");
         Console.WriteLine("1.- Crear un archivo\n2.- Listar Archivos");
         Console.WriteLine("3.- Abrir un Archivo\n4.- Modificar un Archivo");
-        Console.WriteLine("5.- Restaurar una palabra eliminada\n6.- Salir");
+        Console.WriteLine("5.- Eliminar un Archivo\n6.- Recuperar un Archivo");
+        Console.WriteLine("7.- Salir");
 
         string op = Console.ReadLine()!;
 
@@ -273,9 +321,33 @@ static void main(){
             }
 
         }
-        
+
+        if (op == "5"){
+            Console.WriteLine("---ELIMINAR UN ARCHIVO---");
+
+            show_files();
+
+            Console.WriteLine("¿Qué archivo deseas eliminar?");
+            string opfile = Console.ReadLine()!;
+
+            delete_(Convert.ToInt32(opfile));
+
+        }
 
         if (op == "6"){
+            Console.WriteLine("---RECUPERAR UN ARCHIVO---");
+
+            show_files();
+
+            Console.WriteLine("¿Qué archivo deseas recuperar?");
+            string opfile = Console.ReadLine()!;
+
+            backup_(Convert.ToInt32(opfile));
+
+        }
+        
+
+        if (op == "7"){
             Console.WriteLine("Cerrando...");
             break;
         }
