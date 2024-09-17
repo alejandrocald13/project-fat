@@ -1,8 +1,11 @@
 ﻿using System.Text.Json;
+using System.Transactions;
 
 static void create_file(string namefile, string data){
     string actual_directory = Directory.GetCurrentDirectory();
     string filePath = $"{actual_directory}/Tables.json";
+
+    bool fileExist = false;
 
     if (!Directory.Exists($"{actual_directory}\\Clusters")){
         Directory.CreateDirectory($"{actual_directory}\\Clusters");
@@ -14,12 +17,22 @@ static void create_file(string namefile, string data){
         string jsonFromFile = File.ReadAllText(filePath);
 
         List<FatTable> deserializedTables = JsonSerializer.Deserialize<List<FatTable>>(jsonFromFile)!;
-        
-        deserializedTables.Add(NewTable);
-            
-        string jsonString = JsonSerializer.Serialize(deserializedTables);
 
-        File.WriteAllText(filePath, jsonString);
+        foreach(FatTable table in deserializedTables){
+            if (table.FileName == namefile){
+                fileExist = true;
+                break;
+            }
+        }
+
+        if (!fileExist){
+            deserializedTables.Add(NewTable);
+            
+            string jsonString = JsonSerializer.Serialize(deserializedTables);
+
+            File.WriteAllText(filePath, jsonString);
+        }
+        
 
     }
     catch
@@ -146,7 +159,53 @@ static string transversal(string? directory, string text){
 
 }
 
-static void modificate_file(){
+static void modificate_file(int fileNumber, string data){
+    int i = 0;
+
+    string actual_directory = Directory.GetCurrentDirectory();
+    string filePath = $"{actual_directory}/Tables.json";
+
+    try{    
+        string jsonFromFile = File.ReadAllText(filePath);
+        List<FatTable> deserializedTables = JsonSerializer.Deserialize<List<FatTable>>(jsonFromFile)!;
+
+        foreach(FatTable table in deserializedTables){
+            if (!table.ReciclynBin){
+                i ++;
+                if (i == fileNumber){
+                    Console.WriteLine(table.Info());
+                    Console.WriteLine(transversal(table.Directory, ""));
+                    string? currentDirectory = table.Directory;
+                    while (true){
+                        
+                        if (currentDirectory == null){
+                            break;
+                        }
+
+                        jsonFromFile = File.ReadAllText(currentDirectory);
+                        Cluster current = JsonSerializer.Deserialize<Cluster>(jsonFromFile)!;
+                        File.Delete(table.Directory);
+
+                        if (current.Eof == true){
+                            break;
+                        }
+                        else
+                        {
+                            currentDirectory = current.NextFile;
+                        }
+                    }
+
+                    create_file(table.FileName, data);
+                }
+            }
+        }
+    }
+        
+    catch (Exception ex)
+    {   
+        Console.WriteLine(ex.Message);
+        Console.WriteLine("Vaya, parece que ese archivo no lo encuentro.");
+    }
 
 }
 
@@ -196,8 +255,22 @@ static void main(){
             Console.WriteLine("¿Qué archivo deseas modificar?");
             string opfile = Console.ReadLine()!;
 
-            FatTable modTable = show_file(Convert.ToInt32(opfile))!;
+            Console.WriteLine("Ingresa los nuevos datos:");
+            string newData = Console.ReadLine()!;
+            
+            if (Console.ReadKey().Key == ConsoleKey.Escape){
+                Console.WriteLine("¿Estas seguro de realizar la modificación? (s/n)");
+                string op2 = Console.ReadLine()!;
 
+                if (op2 == "s"){
+                    Console.WriteLine("Modificando...");
+                    modificate_file(Convert.ToInt32(opfile), newData);
+                }
+                else{
+                    Console.WriteLine("Vaya, vuelve a intentarlo más tarde.");
+                }
+
+            }
 
         }
         
