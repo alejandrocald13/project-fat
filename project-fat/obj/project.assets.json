@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\rober\\.nuget\\packages\\": {}
+    "C:\\Users\\USUARIO\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rober\\Documents\\mid_url\\project-fat\\project-fat\\project-fat.csproj",
+      "projectUniqueName": "C:\\Users\\USUARIO\\Documents\\mid_url\\project-fat\\project-fat\\project-fat.csproj",
       "projectName": "project-fat",
-      "projectPath": "C:\\Users\\rober\\Documents\\mid_url\\project-fat\\project-fat\\project-fat.csproj",
-      "packagesPath": "C:\\Users\\rober\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\rober\\Documents\\mid_url\\project-fat\\project-fat\\obj\\",
+      "projectPath": "C:\\Users\\USUARIO\\Documents\\mid_url\\project-fat\\project-fat\\project-fat.csproj",
+      "packagesPath": "C:\\Users\\USUARIO\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\USUARIO\\Documents\\mid_url\\project-fat\\project-fat\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\rober\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\USUARIO\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

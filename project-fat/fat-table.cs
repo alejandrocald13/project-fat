@@ -23,8 +23,14 @@ class FatTable{
         if (ModificatedDate == ""){
             temp = "N/A";
         }
+        
+        string temp2 = EliminatedDate;
 
-        return $"Nombre del Archivo: {FileName} - No. Caracteres: {Chartotal} - Fecha Creación: {CreatedDate} - Fecha Modificación: {temp}";
+        if (EliminatedDate == ""){
+            temp2 = "N/A";
+        }
+
+        return $"Nombre del Archivo: {FileName} - No. Caracteres: {Chartotal} - Fecha Creación: {CreatedDate} - Fecha Modificación: {temp} - Fecha Eliminación: {temp2}";
     }
 
 }

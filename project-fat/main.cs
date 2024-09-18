@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using System.Transactions;
 
 static void create_file(string namefile, string data){
     string actual_directory = Directory.GetCurrentDirectory();
@@ -244,6 +243,8 @@ static void backup_(int fileNumber){
     foreach(FatTable table in deserializedTables){
             if (table.ReciclynBin){
                 i ++;
+                Console.WriteLine($"{i}. {table.Info()}");
+
                 if (i == fileNumber){
                     table.ReciclynBin = false;
                     table.EliminatedDate = DateTime.Now.ToString();
@@ -255,6 +256,64 @@ static void backup_(int fileNumber){
             }
         }
 } 
+
+static void show_deleted_files(){
+    
+    int i = 0;
+
+    string actual_directory = Directory.GetCurrentDirectory();
+    string filePath = $"{actual_directory}/Tables.json";
+
+    try{    
+        string jsonFromFile = File.ReadAllText(filePath);
+        List<FatTable> deserializedTables = JsonSerializer.Deserialize<List<FatTable>>(jsonFromFile)!;
+
+        foreach(FatTable table in deserializedTables){
+            if (table.ReciclynBin){
+                i ++;
+                Console.WriteLine($"{i}. {table.Info()}");
+            }
+        }
+    }
+        
+    catch (Exception ex)
+    {   
+        Console.WriteLine(ex.Message);
+        Console.WriteLine("Vaya, parece que se encuentra vacío el terreno.");
+    }
+    
+}
+
+static FatTable? show_deleted_file(int fileNumber){
+    int i = 0;
+
+    string actual_directory = Directory.GetCurrentDirectory();
+    string filePath = $"{actual_directory}/Tables.json";
+
+    try{    
+        string jsonFromFile = File.ReadAllText(filePath);
+        List<FatTable> deserializedTables = JsonSerializer.Deserialize<List<FatTable>>(jsonFromFile)!;
+
+        foreach(FatTable table in deserializedTables){
+            if (table.ReciclynBin){
+                i ++;
+                if (i == fileNumber){
+                    Console.WriteLine(table.Info());
+                    Console.WriteLine(transversal(table.Directory, ""));
+                    return table;
+                }
+            }
+        }
+    }
+        
+    catch
+    {   
+        Console.WriteLine("Vaya, parece que ese archivo no lo encuentro.");
+    }
+
+    return null;
+
+}
 
 static void main(){
     while (true){
@@ -324,25 +383,51 @@ static void main(){
 
         if (op == "5"){
             Console.WriteLine("---ELIMINAR UN ARCHIVO---");
-
             show_files();
 
             Console.WriteLine("¿Qué archivo deseas eliminar?");
             string opfile = Console.ReadLine()!;
+            
+            show_file(Convert.ToInt32(opfile));
 
-            delete_(Convert.ToInt32(opfile));
+            Console.WriteLine("¿Estas seguro de realizar la eliminación? (s/n)");
+            
+            string op2 = Console.ReadLine()!;
+
+
+            if (op2 == "s"){
+                Console.WriteLine("Eliminando...");
+                delete_(Convert.ToInt32(opfile));
+            }
+            else{
+                Console.WriteLine("Eliminación Cancelada.");
+            }
 
         }
+            
 
         if (op == "6"){
             Console.WriteLine("---RECUPERAR UN ARCHIVO---");
 
-            show_files();
+            show_deleted_files();
 
             Console.WriteLine("¿Qué archivo deseas recuperar?");
             string opfile = Console.ReadLine()!;
 
-            backup_(Convert.ToInt32(opfile));
+            show_deleted_file(Convert.ToInt32(opfile));
+
+            Console.WriteLine("¿Estas seguro de realizar la recuperación? (s/n)");
+            
+            string op2 = Console.ReadLine()!;
+
+
+            if (op2 == "s"){
+                Console.WriteLine("Recuperando...");
+                backup_(Convert.ToInt32(opfile));
+            }
+            else{
+                Console.WriteLine("Recuperación Cancelada.");
+            }
 
         }
         
